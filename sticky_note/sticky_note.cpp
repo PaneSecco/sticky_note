@@ -7,7 +7,7 @@
 #include <vector>
 using namespace std;
 
-class note //odio iComparable
+class note 
 {
 private: string titolo;
 private: string testo;
@@ -53,7 +53,20 @@ public : int CompareTo(note other)
 list<note> lista;
 int contatore = 0;
 
+void Refresh() {
+    system("cls");
+    cout << "Scegliere una delle seguenti opzioni per continuare\n";
+    cout << "Digitare ed inviare 1 se si vuole aggiungere una sticky note\n";
+    cout << "Digitare ed inviare 2 se si vuole vedere tutte le sticky note (per titolo)\n";
+    cout << "Digitare ed inviare 3 se si vuole vedere tutte le sticky note (in modo completo)\n";
+    cout << "Digitare ed inviare 4 se si vuole eliminare una sticky note (ricerca per titolo)\n";
+    cout << "Digitare ed inviare 5 se si vuole vedere quante sticky note si sono create\n";
+    cout << "Digitare ed inviare 6 se si vuole cercare una sticky note in base alla categoria\n";
+    cout << "--------------------------------------------------------------------------------------------------\n";
+}
+
 void Aggiungi() {
+    Refresh();
     string titolo, testo, categoria;
     cout << "Inserire il titolo della sticky note ed inviare\n";
     getline(cin >> ws, titolo);
@@ -133,29 +146,39 @@ void Elimina() {
     }
     cout << "Non sono stati trovati elementi con quel titolo\n";
 }
-/*
-void Riordina() {
-    int grandezza = lista.size();
-    list<note>comparare = lista;
-    for (int a = 0; a < grandezza; a++) {
-        comparare.pop_front();
-        if ()
+
+void Categorie() {
+    if (lista.empty()) {
+        cout << "Non sono ancora state create sticky note\n";
+        return;
     }
-    //lista.sort();
-}
-*/
 
-void Refresh() {
-    system("cls");
-    cout << "Scegliere una delle seguenti opzioni per continuare\n";
-    cout << "Digitare ed inviare 1 se si vuole aggiungere una sticky note\n";
-    cout << "Digitare ed inviare 2 se si vuole vedere tutte le sticky note (per titolo)\n";
-    cout << "Digitare ed inviare 3 se si vuole vedere tutte le sticky note (in modo completo)\n";
-    cout << "Digitare ed inviare 4 se si vuole eliminare una sticky note (ricerca per titolo)\n";
-    cout << "Digitare ed inviare 5 se si vuole vedere quante sticky note si sono create\n";
-    cout << "--------------------------------------------------------------------------------------------------\n";
-}
+    cout << "Definire Categoria da mostrare\n";
+    string speciale;
+    cin >> speciale;
+    list<note> tmp;
+    list<note> copia = lista;
 
+    for (int i = 0; i < contatore; i++) {
+
+        note tempo = copia.front();
+        copia.pop_front();
+
+        if (tempo.GetCategoria() == speciale) {
+            tmp.push_back(tempo);
+        }
+    }
+
+    if (tmp.empty()) {
+        cout << "Non sono stati trovati elementi con quel titolo\n";
+    }
+    else {
+        cout << "Le sticky note della categoria " << speciale << " sono:\n";
+        for (int j = 0; j < tmp.size(); j++) {
+            cout << "- " << tmp.front().GetTitolo() << "\n";
+        }
+    }
+}
 
 int main()
 {
@@ -165,12 +188,19 @@ int main()
     cout << "Digitare ed inviare 3 se si vuole vedere tutte le sticky note (in modo completo)\n";
     cout << "Digitare ed inviare 4 se si vuole eliminare una sticky note (ricerca per titolo)\n";
     cout << "Digitare ed inviare 5 se si vuole vedere quante sticky note si sono create\n";
+    cout << "Digitare ed inviare 6 se si vuole cercare una sticky note in base alla categoria\n";
     cout << "--------------------------------------------------------------------------------------------------\n";
 
     while (0 < 1)
     {
         string scelta;
         cin >> scelta;
+
+        if (scelta != "0" && scelta != "1" && scelta != "2" && scelta != "3" && scelta != "4" && scelta != "5") {
+            Refresh();
+            cout << "Carattere non supportato, sceglierne un'altro";
+        }
+
         int argomento = stoi(scelta);
 
         switch (argomento)
@@ -202,10 +232,16 @@ int main()
             Refresh();
             cout << "Il numero di sticky note attualmente esistenti e': " << lista.size();
             break;
+        case 6:
+            //categoria
+            Refresh();
+            Categorie();
+            break;
         default:
-            // istruzioni
+            // terminazione
             return 0;
         }
+        cout << "Scrivi un numero per una nuova azione...\n";
     }
 }
 
