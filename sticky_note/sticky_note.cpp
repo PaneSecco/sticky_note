@@ -107,7 +107,7 @@ void StampaCompleto() {
         copia.pop_front();
         cout << "- Titolo: " << titolo << "\n";
         cout << "  Testo: " << testo << "\n";
-        cout << "  Categoria: :" << categoria << "\n";
+        cout << "  Categoria: " << categoria << "\n";
     }
 }
 
@@ -158,6 +158,7 @@ void Categorie() {
     cin >> speciale;
     list<note> tmp;
     list<note> copia = lista;
+    int volte = 0;
 
     for (int i = 0; i < contatore; i++) {
 
@@ -166,6 +167,7 @@ void Categorie() {
 
         if (tempo.GetCategoria() == speciale) {
             tmp.push_back(tempo);
+            volte++;
         }
     }
 
@@ -174,8 +176,9 @@ void Categorie() {
     }
     else {
         cout << "Le sticky note della categoria " << speciale << " sono:\n";
-        for (int j = 0; j < tmp.size(); j++) {
+        for (int j = 0; j < volte; j++) {
             cout << "- " << tmp.front().GetTitolo() << "\n";
+            tmp.pop_front();
         }
     }
 }
@@ -230,7 +233,7 @@ int main()
         case 5:
             //conteggio sticky note
             Refresh();
-            cout << "Il numero di sticky note attualmente esistenti e': " << lista.size();
+            cout << "Il numero di sticky note attualmente esistenti e': " << lista.size()<< "\n";
             break;
         case 6:
             //categoria
